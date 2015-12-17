@@ -1,4 +1,11 @@
-FROM python:3-onbuild
+FROM centos:centos7
 
-CMD [ "python", "./server/server.py" ]
+RUN yum -y install epel-release; yum clean all
+RUN yum -y install python-pip; yum clean all
+RUN yum -y install python34 mongodb-server
 
+RUN mkdir -p /data/db
+
+ADD . /src
+
+CMD /bin/mongod --dbpath /data/db/ --fork --logpath /var/log/mongod.log && python3.4 /src/server/server.py
