@@ -3,30 +3,28 @@ class Riddle:
     #the unique address, riddle string, answer and id
     riddleCount = 0
 
-    def __init__(self, number,url, riddle, answer):
-        self.__number = number
-        self.__riddle = riddle
-        self.__answer = answer
-        self.__url = url
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
         Riddle.riddleCount += 1
 
-    def getNumber(self):
-        return self.__number
-    
-    def getUrl(self):
-        return self.__url
+    def getId(self):
+        return self._id
 
     def getRiddle(self):
-        return self.__riddle
+        return self.riddle
+
+    def setRiddle(self, riddle):
+        self.riddle = riddle
 
     def getAnswer(self):
-        return self.__answer
+        return self.answer
+
+    def setAnswer(self, answer):
+        self.answer = answer
 
     def displayInfo(self):
-        returnString = "Riddle Number: %d" % self.__number
-        returnString += "\nCurrent Address: %s" % self.__url
-        returnString += "\nRiddle: %s" % self.__riddle
-        returnString += "\nAnswer: %s" % self.__answer
+        returnString = "Riddle Id: %d" % self._id
+        returnString += "\nCurrent Address: %s" % self.url
+        returnString += "\nRiddle: %s" % self.riddle
+        returnString += "\nAnswer: %s" % self.answer
         return returnString
-
-    

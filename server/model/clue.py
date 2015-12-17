@@ -3,23 +3,21 @@ class Clue:
     #the clue number, the clue string, and the clue code
     clueCount = 0
 
-    def __init__(self,number,clue,code):
-        self.__number = number
-        self.__clue = clue
-        self.__code = code
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
         Clue.clueCount += 1
 
-    def getNumber(self):
-        return self.__number
+    def getId(self):
+        return self._id
 
     def getClue(self):
-        return self.__clue
+        return self.clue
 
     def getCode(self):
-        return self.__code
+        return self.code
 
     def displayInfo(self):
-        returnString = "Clue Number: %d" % self.__number
-        returnString += "\nClue: %s" % self.__clue
-        returnString += "\nUnlock Code: %s" % self.__code
+        returnString = "Clue Id: %d" % self._id
+        returnString += "\nClue: %s" % self.clue
+        returnString += "\nUnlock Code: %s" % self.code
         return returnString
