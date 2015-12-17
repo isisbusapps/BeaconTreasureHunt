@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Beacon Treasure Hunt</title>
+
+    <script src="js/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="vendor/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="vendor/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="vendor/bootstrap-table/bootstrap-table.css">
+    <link rel="stylesheet" href="css/bootstrap-editable.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Beacon Treasure Hunt</h1>
+        <div id="toolbar">
+            <button id="remove" class="btn btn-danger" disabled>
+                <i class="glyphicon glyphicon-remove"></i> Delete
+            </button>
+            <button id="insertRow" class="btn btn-success">
+                Insert Row
+            </button>
+        </div>
+        <table id="table"
+               data-toolbar="#toolbar"
+               data-search="true"
+               data-show-refresh="true"
+               data-show-toggle="true"
+               data-show-columns="true"
+               data-show-export="true"
+               data-detail-view="true"
+               data-detail-formatter="detailFormatter"
+               data-minimum-count-columns="2"
+               data-show-pagination-switch="true"
+               data-pagination="true"
+               data-id-field="id"
+               data-page-list="[10, 25, 50, 100, ALL]"
+               data-show-footer="false"
+               data-side-pagination="server"
+               data-response-handler="responseHandler"></table>
+    </div>
+
+    <script type="text/javascript" src="js/admin.js"></script>
+</body>
+</html>
