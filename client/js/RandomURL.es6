@@ -1,6 +1,7 @@
 export default class RandomURL {
-  constructor(length = 40) {
+  constructor(length = 40, baseURL = "") {
     this.length = length;
+    this.baseURL = baseURL
   }
 
   _byteToHex(byte) {
@@ -10,6 +11,6 @@ export default class RandomURL {
   newURL() {
     let arr = new Uint8Array(this.length / 2);
     window.crypto.getRandomValues(arr);
-    return arr.reduce((a, b) => a + this._byteToHex(b));
+    return this.baseURL + arr.reduce((a, b) => a + this._byteToHex(b));
   }
 }
