@@ -1,22 +1,61 @@
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="beacon.js"></script>
-    <link href="beacon_page.css" rel="stylesheet" type="text/css"/>
+    <link href="beacon_page.css" rel="stylesheet" type="text/css" />
 </head>
+<title></title>
+<link href="vendor/css/bootstrap.min.css" rel="stylesheet">
+
 <body>
-    <div class="test">This is Beacon number <span id="beacon-number"></span></div> 
-    <div>Congratulations on finding me!!</div>
+    <br />
+    <div class="container-fluid">
+        <div class="jumbotron outline-panel-black">
+            <div class="center-text panel panel-body">
+                <h1>This is beacon number </h1><span id="beacon-number"></span>
+            </div>
 
-    <div>Here's the next riddle: <span id="riddle"></span></div>
-    <!--Speak the answer-->
+            <div class="center-text alert alert-success outline-panel-green">
+                <strong><p>Congratulations</strong> on finding me!!</p>
+            </div>
 
-    <div class="answer-list">
-        Incorrect attempts:
-        <!--List of previous incorrect answers-->
-    </div>
 
-    <div>Current attempt: <span id="current-answer"></span></div>
+            <div class="bold-text panel-heading lightgray-background">
+                Here's the next riddle:
+            </div>
+            <div class="panel panel-body">
+                <span id="riddle"></span>
+            </div>
 
-    <div> Here's the clue to find the next beacon: <span id="next-clue"></span></div>
+
+            <div class="bold-text panel-heading lightgray-background">
+                Current attempt:
+            </div>
+            <div class="panel panel-body">
+                <span id="current-answer"></span>
+            </div>
+
+            <div class="bold-text panel-heading lightgray-background">
+                Incorrect attempts:
+            </div>
+            <div class="panel panel-body">
+                <div id="answer-list">
+                </div>
+                <!--List of previous incorrect answers-->
+            </div>
+
+            <div class="bold-text panel-heading lightgray-background">
+                Here's the clue to find the next beacon:
+            </div>
+            <div class=" panel panel-body">
+                <span id="next-clue"></span>
+            </div>
+
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="vendor/js/bootstrap.min.js"></script>
+
 </body>
 </html>

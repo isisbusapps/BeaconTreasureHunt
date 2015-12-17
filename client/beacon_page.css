@@ -1,0 +1,25 @@
+.center-text {
+    text-align: center;
+}
+
+.outline-panel-black {
+    border: 2px solid black !important;
+}
+
+.outline-panel-green {
+    border: 2px solid green !important;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+#answer-list {
+    max-height: 5em;
+    overflow-y:scroll;
+    overflow-wrap:break-word;
+}
+
+.lightgray-background {
+    background-color: lightgray !important
+}
