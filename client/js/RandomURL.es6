@@ -10,6 +10,6 @@ export default class RandomURL {
   newURL() {
     let arr = new Uint8Array(this.length / 2);
     window.crypto.getRandomValues(arr);
-    return arr.reduce((a, b, c) => a + this._byteToHex(b));
+    return arr.reduce((a, b) => a + this._byteToHex(b));
   }
 }
