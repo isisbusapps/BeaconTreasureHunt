@@ -1,1 +1,1 @@
-# BeaconTreasurehunt
+# BeaconTreasureHunt
