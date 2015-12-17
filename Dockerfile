@@ -4,6 +4,9 @@ RUN yum -y install epel-release; yum clean all
 RUN yum -y install python-pip; yum clean all
 RUN yum -y install python34 mongodb-server
 
+RUN pip install pymongo
+RUN pip install cherrypi
+
 RUN mkdir -p /data/db
 
 ADD . /src
