@@ -1,7 +1,8 @@
 var $table = $('#table'),
-            $remove = $('#remove'),
-            $insertRow = $('#insertRow'),
-            selections = [];
+    $remove = $('#remove'),
+    $insertRow = $('#insertRow'),
+    selections = [];
+
         function initTable() {
             $table.bootstrapTable({
                 height: getHeight(),
@@ -19,8 +20,8 @@ var $table = $('#table'),
                             rowspan: 2,
                             align: 'center',
                             valign: 'middle',
+                            editable: true,
                             sortable: true,
-                            footerFormatter: totalTextFormatter
                         }, {
                             title: 'Beacon Detail',
                             colspan: 5,
@@ -33,7 +34,6 @@ var $table = $('#table'),
                             title: 'Riddle',
                             sortable: true,
                             editable: true,
-                            footerFormatter: totalNameFormatter,
                             align: 'center'
                         }, {
                             field: 'answer',
@@ -53,24 +53,21 @@ var $table = $('#table'),
                                     }
                                     var data = $table.bootstrapTable('getData'),
                                         index = $(this).parents('tr').data('index');
-                                    console.log(data[index]);
+                                    //console.log(data[index]);
                                     return '';
                                 }
                             },
-                            footerFormatter: totalPriceFormatter
                         }, {
                             field: 'clue',
                             title: 'Clue',
                             sortable: true,
                             editable: true,
-                            footerFormatter: clueFormatter,
                             align: 'center'
                         }, {
                             field: 'url',
                             title: 'URL',
                             sortable: true,
                             editable: true,
-                            footerFormatter: clueFormatter,
                             align: 'center'
                         }, {
                             field: 'actions',
@@ -80,12 +77,14 @@ var $table = $('#table'),
                             formatter: operateFormatter
                         }
                     ]
-                ], data: randomData()
+                ]//, data: randomData()
             });
+
             // sometimes footer render error.
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
+
             $table.on('check.bs.table uncheck.bs.table ' +
                     'check-all.bs.table uncheck-all.bs.table', function () {
                         $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
@@ -93,6 +92,7 @@ var $table = $('#table'),
                         selections = getIdSelections();
                         // push or splice the selections if you want to save all data selections
                     });
+
             $table.on('expand-row.bs.table', function (e, index, row, $detail) {
                 if (index % 2 == 1) {
                     $detail.html('Loading from ajax request...');
@@ -101,6 +101,7 @@ var $table = $('#table'),
                     });
                 }
             });
+
             $remove.click(function () {
                 var ids = getIdSelections();
                 $table.bootstrapTable('remove', {
@@ -109,38 +110,32 @@ var $table = $('#table'),
                 });
                 $remove.prop('disabled', true);
             });
+
             $(window).resize(function () {
                 $table.bootstrapTable('resetView', {
                     height: getHeight()
                 });
             });
-            getMaxID();
+
+
+
+            loadData();
+            saveData();
         }
+
         function getIdSelections() {
             return $.map($table.bootstrapTable('getSelections'), function (row) {
                 return row.id
             });
         }
+
         function responseHandler(res) {
             $.each(res.rows, function (i, row) {
                 row.state = $.inArray(row.id, selections) !== -1;
             });
             return res;
         }
-        function detailFormatter(index, row) {
-            var html = [];
-            $.each(row, function (key, value) {
-                html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-            });
-            return html.join('');
-        }
-        function clueFormatter(index, row) {
-            var html = [];
-            $.each(row, function (key, value) {
-                html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-            });
-            return html.join('');
-        }
+
         function operateFormatter(value, row, index) {
             return [
                 '<a class="save" href="javascript:void(0)" title="Save">',
@@ -151,6 +146,7 @@ var $table = $('#table'),
                 '</a>'
             ].join('');
         }
+
         window.operateEvents = {
             'click .save': function (e, value, row, index) {
                 alert('You click save action, row: ' + JSON.stringify(row));
@@ -162,22 +158,11 @@ var $table = $('#table'),
                 });
             }
         };
-        function totalTextFormatter(data) {
-            return 'Total';
-        }
-        function totalNameFormatter(data) {
-            return data.length;
-        }
-        function totalPriceFormatter(data) {
-            var total = 0;
-            $.each(data, function (i, row) {
-                total += +(row.price.substring(1));
-            });
-            return '$' + total;
-        }
+
         function getHeight() {
             return $(window).height() - $('h1').outerHeight(true);
         }
+
         $(function () {
             var scripts = [
                     location.search.substring(1) || 'vendor/bootstrap-table/bootstrap-table.js',
@@ -213,6 +198,7 @@ var $table = $('#table'),
                 };
             eachSeries(scripts, getScript, initTable);
         });
+
         function getScript(url, callback) {
             var head = document.getElementsByTagName('head')[0];
             var script = document.createElement('script');
@@ -235,41 +221,67 @@ var $table = $('#table'),
         }
 
         function getMaxID() {
-            var arr = $table.bootstrapTable('getData');
-            for (var i = 0; i < arr.length; i++) {
-                var obj = arr[i];
+            var data = $table.bootstrapTable('getData');
+            var maxID = 0;
+            for (var i = 0; i < data.length; i++) {
+                var obj = data[i];
                 for (var key in obj) {
-                    var attrName = key;
-                    var attrValue = obj[key];
-                    console.log(key);
+                    if (key === 'id')
+                    {
+                        if (maxID < obj[key])
+                        {
+                            maxID = obj[key];
+                        }
+                    }
                 }
             }
-            
+            return maxID;
         }
 
         $(function () {
             $insertRow.click(function () {
                 $table.bootstrapTable('insertRow', {
-                    index: 1,
+                    index: getMaxID() + 1,
                     row: {
-                        id: 1,
-                        riddle: 'test' + (1 ),
-                        answer: '$' + (1),
-                        clue: '$' + (1)
+                        id: getMaxID() + 1,
+                        riddle: '',
+                        answer: '',
+                        clue: '',
+                        url: ''
                     }
                 });
             });
         });
 
-        function randomData() {
-            var rows = [];
-            for (var i = 0; i < 10; i++) {
-                rows.push({
-                    id: 1 + i,
-                    riddle: 'test' + (1 + i),
-                    answer: '$' + (1 + i),
-                    clue: '$' + (1 + i)
-                });
-            }
-            return rows;
+        function saveData() {
+            var data = $table.bootstrapTable('getData');
+            console.log(data);
+        }
+
+        //function randomData() {
+        //    var rows = [];
+        //    for (var i = 0; i < 10; i++) {
+        //        rows.push({
+        //            id: 1 + i,
+        //            riddle: 'test riddle ' + (1 + i),
+        //            answer: 'test answer ' + (1 + i),
+        //            clue: 'test clue ' + (1 + i),
+        //            url: 'www.stfc.ac.uk'
+        //        });
+        //    }
+        //    return rows;
+        //}
+
+        function loadData() {
+            $.getJSON("test.json", function (json) {
+                var objects = { total: json.length, rows: json };
+                $table.bootstrapTable('load', objects);
+            });
+        }
+
+        function insertIntoTable(row) {
+            $table.bootstrapTable('insertRow', {
+                index: getMaxID() + 1,
+                row: row
+            });
         }
